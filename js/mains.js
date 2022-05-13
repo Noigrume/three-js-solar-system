@@ -19,8 +19,8 @@ const mouse = {
 const group = new THREE.Group()
 
 function createPlanete(size, texture, position) {
-    const coat = './img/'+texture;
-    const geo = new THREE.SphereGeometry(size, 30, 30);
+    const coat = './img/' + texture;
+    const geo = new THREE.SphereGeometry(size, 64, 32);
     const mat = new THREE.MeshBasicMaterial({
         map: new THREE.TextureLoader().load(coat)
     });
@@ -50,9 +50,16 @@ starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsPosi
 const stars = new THREE.Points(starGeometry, starMaterial)
 
 /************************************************************** planète *************************************************************/
-const mars = createPlanete(4, '2k_mars.jpg', 78);
+const mercury = createPlanete(4, '8k_mercury.jpg', 18);
+const venus = createPlanete(4, '8k_venus_surface.jpg', 78);
+const earth = createPlanete(4, '2k_earth_daymap.jpg', 78);
+const mars = createPlanete(10, '2k_mars.jpg', 68);
+const jupiter = createPlanete(4, '8k_jupiter.jpg', 78);
+const saturn = createPlanete(4, '2k_mars.jpg', 78);
+const uranus = createPlanete(4, '2k_mars.jpg', 78);
+const neptune = createPlanete(4, '2k_mars.jpg', 78);
 //radius, 'smoothness", hauteur
-const sphereGeometry = new THREE.SphereGeometry(5, 50, 50);
+const sphereGeometry = new THREE.SphereGeometry(50, 50, 50);
 const material = new THREE.MeshBasicMaterial(
     {
         //color: 0x00ff00
@@ -64,26 +71,15 @@ const material = new THREE.MeshBasicMaterial(
 // 2 arguments (2js geometrie +
 const planetShape = new THREE.Mesh(sphereGeometry, material);
 /************************************************************** lune *************************************************************/
-
-const moonGeometry = new THREE.SphereGeometry(2, 50, 30);
-const moonMaterial = new THREE.MeshBasicMaterial(
-    {
-        map: new THREE.TextureLoader().load('./img/2k_earth_daymap.jpg')
-    }
-);
-
-// 2 arguments (2js geometrie +
-const moonShape = new THREE.Mesh(moonGeometry, moonMaterial);
-// moonShape.position.x += 6;
-// moonShape.translateY(6);
-// moonShape.translateX(6);
+const moon = createPlanete(4, '2k_moon.jpg', 7);
 
 
 ///////////////////////////////////////////////////////////////////////////////////scene/////////////////////////////////////////////////////////
 scene.add(stars)
 scene.add(planetShape);
 scene.add(group);
-scene.add(moonShape)
+
+
 ///////////////////////////////////////////////////////////////////////caméra/////////////////////////////////////////////////////////////////
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -93,7 +89,7 @@ document.body.appendChild(renderer.domElement);
 group.add(planetShape)
 
 // !! par défaut la caméra est placée au centre (donc dans la spère), on doit la reculer d'un valeur supérieure à la largeur de notre objet
-camera.position.z = 15;
+camera.position.z = 135;
 
 ////////////////////////////////////////////////////////////  fonction ////////////////////////////////////////////////////////////
 function animate() {
@@ -106,12 +102,29 @@ function animate() {
     group.rotation.y = mouse.x * 0.3;
     group.rotateY(.005)
 
-    moonShape.position.set(0, 0, 0);
-    moonShape.rotateY(.008);
-    moonShape.translateX(10);
-    moonShape.translateY(1);
 
-    mars.obj.rotateY(0.008);
+
+
+    // moonShape.position.set(0, 0, 0);
+    // moonShape.rotateY(.008);
+    // moonShape.translateX(10);
+    // moonShape.translateY(1);
+    //earth.obj.rotateY(0.004);
+    //rotation speed arround the sun
+    // mercury.obj.rotateY(0.002);
+    // mercury.obj.rotation.x = 5;
+    // venus.obj.rotateY(0.003);
+    // earth.obj.rotateY(0.004);
+    // earth.obj.rotation.x = 25;
+    // mars.obj.rotateY(0.005);
+    // jupiter.obj.rotateY(0.006);
+    // saturn.obj.rotateY(0.007);
+    // uranus.obj.rotateY(0.008);
+    // neptune.obj.rotateY(0.009);
+
+  //  moon.obj.rotateY(0.019);
+    group.add(earth.obj);
+    earth.obj.rotateY += 0.1;
 
     renderer.render(scene, camera);
 };
